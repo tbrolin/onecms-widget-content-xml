@@ -1,0 +1,10 @@
+{
+  "name": "onecms-widget-content-xml-gen",
+  "version": "0.0.1",
+  "description": "Generates a content xml from a widget source directory.",
+  "dependencies": {
+    "file": "^0.2.2",
+    "minimist": "^1.2.0",
+    "xmlbuilder": "^3.0.0"
+  }
+}
