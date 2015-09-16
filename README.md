@@ -7,7 +7,7 @@ Generates a content xml from a widget source directory.
 $ git clone git@github.com:tbrolin/onecms-widget-content-xml.git
 $ cd onecms-widget-content-xml
 $ npm install
-$ node generate.js --rootDir 'path/to/myWidget' --name myWidget > atex.onecms.Widget-myWidget.xml
+$ node generate.js --rootDir path/to/myWidget --name myWidget > atex.onecms.Widget-myWidget.xml
 ```
 
 Currently the script relies heavily on the widget source directory structure. Especially any files in the rootDir that ends with manifest.json, style.css, template.html or widget.js are special. It doesn't read anything from the manifest.json at all.
