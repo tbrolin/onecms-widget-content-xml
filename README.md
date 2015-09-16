@@ -10,10 +10,7 @@ $ npm install
 $ node generate.js --rootDir 'path/to/myWidget' --name myWidget > atex.onecms.Widget-myWidget.xml
 ```
 
-Currently the script relies heavily on the widget source directory
-structure. Especially any files in the rootDir that ends with manifest.json,
-style.css, template.html or widget.js are special. It doesn't read from the
-manifest.json at all for the moment.
+Currently the script relies heavily on the widget source directory structure. Especially any files in the rootDir that ends with manifest.json, style.css, template.html or widget.js are special. It doesn't read anything from the manifest.json at all.
 
 * Please use the [issue tracker](https://github.com/tbrolin/onecms-widget-content-xml/issues) to suggest features or report bugs.
 * Please fork or branch me and create pull requests.
