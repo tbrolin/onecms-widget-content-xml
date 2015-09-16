@@ -14,5 +14,5 @@ style.css, template.html or widget.js are special. It doesn't read from the
 manifest.json at all for the moment.
 
 * Please use the [issue tracker](https://github.com/tbrolin/onecms-widget-content-xml/issues) to suggest features or report bugs.
-* Please [fork me](https://github.com/tbrolin/onecms-widget-content-xml#fork-destination-box) and create pull requests.
+* Please fork or branch me and create pull requests.
 * Please **do not** push to master like some crazy infidel.
