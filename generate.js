@@ -1,8 +1,8 @@
 var builder = require ('xmlbuilder'),
     path    = require ('path'),
-    // There may be a better alternative to 'file'
+    // There may be a better module alternative to 'file'
     // walk = require ('walk');
-    // However this package fits with the current use case
+    // However this module nicely fits the current use case
     fsWalk = require ('file'),
     argv = require('minimist')(process.argv.slice(2)),
     options = {};
