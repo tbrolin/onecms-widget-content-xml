@@ -8,7 +8,18 @@ var builder = require ('xmlbuilder'),
     options = {};
 
 argv.rootDir = argv.rootDir || argv.d || '.';
-argv.name = argv.name || 'UNKNOWN';
+argv.name = argv.name || argv.n || 'UNKNOWN';
+argv.help = argv.help || argv.h || false;
+
+if (argv.help) {
+  console.log('\nUsage:');
+  console.log();
+  console.log('  node generate.js [--name|-n <widget_name>] [--rootDir|-d <widget_files_root>]');
+  console.log();
+  console.log('    --name     defaults to "UNKNOWN"');
+  console.log('    --rootDir  defaults to "."');
+  process.exit();
+}
 
 options.extid = 'atex.onecms.Widget-' + argv.name;
 options.securityParent = 'atex.onecms.OneCMSSettings';
