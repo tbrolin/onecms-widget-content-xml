@@ -1,5 +1,3 @@
-**Now tested at least once, seems to be working ok under the right circumstances**
-
 # onecms-widget-content-xml
 Generates a content xml from a widget source directory.
 
