@@ -25,39 +25,20 @@ function createEntry (uri, path) {
   };
 }
 
-function addFile (json, rootDir, currDir, cntName, file) {
-
-  var fPath = path.relative (rootDir, file);
-  // console.log('DEBUG: [path.relative (rootDir, currDir)]', path.relative (rootDir, currDir));
+function addFile (json, rootDir, currDir, widgetName, file) {
+  if (endsWith (file, widgetName + '.json')) {
+    return;
+  }
+  var fUri = path.relative (rootDir, file);
+  var fName = fUri.replace ('.file', '');
   var inRoot = !path.relative (rootDir, currDir);
-
   var files = json.aspects['atex.Files'].data.files;
-  // console.log('DEBUG: [addFileElement] inRoot: ' + inRoot);
+
   if (inRoot) {
-    if (endsWith (fPath, cntName + '.json')) {
-      // skip
-    } else
-    if (endsWith (fPath, 'widget.js')) {
-      files['widget.js'] = createEntry(fPath, 'widget.js');
-      // xml.ele('file', { 'name': 'widget.js', 'encoding': 'relative' }, fPath);
-    } else
-    if (endsWith (fPath, 'manifest.json.file')) {
-      files['manifest.json'] = createEntry(fPath, 'manifest.json');
-      // xml.ele('file', { 'name': 'manifest.json', 'encoding': 'relative' }, fPath);
-    } else
-    if (endsWith (fPath, 'template.html')) {
-      files['template.html'] = createEntry(fPath, 'template.html');
-      // xml.ele ('file', { 'name': 'template.html', 'encoding': 'relative' }, fPath);
-    } else
-    if (endsWith (fPath, 'style.css')) {
-      files['style.css'] = createEntry(fPath, 'style.css');
-      // xml.ele ('file', { 'name': 'style.css', 'encoding': 'relative' }, fPath);
-    }
-  } else {
-    files[fPath] = createEntry(fPath, fPath);
-    // xml.ele ('file', { 'name': fPath, 'encoding': 'relative' }, fPath);
+    fName = fName.replace(new RegExp(widgetName + '-'), '');
   }
 
+  files[fName] = createEntry(fUri, fName);
 }
 
 var jsonimport = {
