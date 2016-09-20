@@ -42,7 +42,7 @@ function addFile (json, rootDir, currDir, cntName, file) {
       // xml.ele('file', { 'name': 'widget.js', 'encoding': 'relative' }, fPath);
     } else
     if (endsWith (fPath, 'manifest.json.file')) {
-      files['manifest.js'] = createEntry(fPath, 'manifest.json');
+      files['manifest.json'] = createEntry(fPath, 'manifest.json');
       // xml.ele('file', { 'name': 'manifest.json', 'encoding': 'relative' }, fPath);
     } else
     if (endsWith (fPath, 'template.html')) {
