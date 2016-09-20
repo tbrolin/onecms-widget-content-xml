@@ -28,6 +28,8 @@ function createEntry (uri, path) {
 function addFile (json, rootDir, currDir, widgetName, file) {
   if (endsWith (file, widgetName + '.json')) {
     return;
+  } else if (endsWith (file, '.json')) {
+    process.stderr.write('[WARNING] The file ' + file + ' should probably be renamed to ' + file + '.file' + ' before import.\n');
   }
   var fUri = path.relative (rootDir, file);
   var fName = fUri.replace ('.file', '');
@@ -60,7 +62,6 @@ var jsonimport = {
     }
   }
 };
-
 
 var result = fsWalk.walk (argv.rootDir, function (err, currDir, dirs, files) {
   if (err) {
