@@ -67,11 +67,9 @@ var result = fsWalk.walk (argv.rootDir, function (err, currDir, dirs, files) {
     console.err('ERROR:', err);
     return;
   }
-  // console.log('DEBUG: [walk.callback] currDir: ', currDir)
   files.forEach(addFile.bind({}, jsonimport, argv.rootDir, currDir, argv.name));
 });
 
 process.on('exit', function () {
   console.log(JSON.stringify(jsonimport, null, ' '));
-  // console.log(root.end({ 'pretty': true }));
 });
