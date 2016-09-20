@@ -1,0 +1,41 @@
+#! /usr/local/bin/node
+
+var builder = require ('xmlbuilder'),
+    path    = require ('path'),
+    // There may be a better module alternative to 'file'
+    // walk = require ('walk');
+    // However this module nicely fits the current use case
+    fsWalk = require ('file'),
+    argv = require('minimist')(process.argv.slice(2)),
+    options = {};
+
+if (argv.help) {
+  console.log('\nUsage:');
+  console.log();
+  console.log('  node generate.js [--name|-n <widget_name>] [--rootDir|-d <widget_files_root>]');
+  console.log();
+  console.log('    --name     defaults to "UNKNOWN"');
+  console.log('    --rootDir  defaults to "."');
+  process.exit();
+}
+
+options.rootDir = argv.rootDir || argv.d || '.';
+options.name = argv.name || argv.n || 'UNKNOWN';
+options.help = argv.help || argv.h || false;
+options.extid = 'atex.onecms.Widget-' + argv.name;
+options.securityParent = 'atex.onecms.OneCMSSettings';
+options.inputTemplate = 'atex.onecms.Widget.it';
+options.componentName = 'OneCMS Widget - ' + argv.name;
+
+if (argv._[0] === 'generate') {
+  //console.log('[DEBUG] ', require('./src/contentjson.js'));
+  //console.log('[DEBUG] require: content' + argv._[1] + '.js');
+  var result = {};
+  require('./src/content' + argv._[1])(result, options);
+
+  //var result = motor.generate (options);
+
+  //process.on ('exit', function () {
+  //  console.log (result);
+  //});
+}
