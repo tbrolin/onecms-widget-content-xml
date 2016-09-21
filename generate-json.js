@@ -4,33 +4,29 @@ var path    = require ('path'),
     // However this module nicely fits the current use case
     fsWalk = require ('file'),
     argv = require('minimist')(process.argv.slice(2)),
-    options = {};
-
-argv.rootDir = argv.rootDir || argv.d || '.';
-argv.name = argv.name || 'UNKNOWN';
-
-options.alias = 'externalid/atex.onecms.Widget-' + argv.name;
-// hrrm...
-options.fileUriPrefix = 'file:' + argv.name + '-';
-options.componentName = 'OneCMS Widget - ' + argv.name;
+    options = {
+      'widgetName':  argv.name || 'UNKNOWN',
+      'root': argv.rootDir || argv.d || '.',
+      get alias () {
+        return 'externalid/atex.onecms.Widget-' + this.widgetName;
+      },
+      get verboseWidgetName () {
+        return 'OneCMS Widget - ' + this.widgetName;
+      }
+    };
 
 function endsWith (subject, suffix) {
   return (subject.indexOf(suffix, subject.length - suffix.length) !== -1);
 }
 
-function createEntry (uri, path) {
-  return {
-    'fileUri': 'file:' + uri,
-    'filePath': path
-  };
-}
-
 function addFile (json, rootDir, currDir, widgetName, file) {
+
   if (endsWith (file, widgetName + '.json')) {
     return;
   } else if (endsWith (file, '.json')) {
-    process.stderr.write('[WARNING] The file ' + file + ' should probably be renamed to ' + file + '.file' + ' before import.\n');
+    process.stderr.write ('[WARNING] The file ' + file + ' should probably be renamed to ' + file + '.file' + ' before import.\n');
   }
+
   var fUri = path.relative (rootDir, file);
   var fName = fUri.replace ('.file', '');
   var inRoot = !path.relative (rootDir, currDir);
@@ -40,37 +36,48 @@ function addFile (json, rootDir, currDir, widgetName, file) {
     fName = fName.replace(new RegExp(widgetName + '-'), '');
   }
 
-  files[fName] = createEntry(fUri, fName);
+  files[fName] = {
+    'fileUri': 'file:' + fUri,
+    'filePath': fName
+  };
 }
 
-var jsonimport = {
-  'importerMetadata': {
-    alias: options.alias
-  },
-  'aspects': {
-    'atex.Files': {
-      'data': {
-        '_type': 'atex.Files',
-        'files': {}
-      }
+function main (options) {
+  var jsonimport = {
+    'importerMetadata': {
+      alias: options.alias
     },
-    'contentData': {
-      'data': {
-        '_type': 'widget',
-        'name': options.componentName
+    'aspects': {
+      'atex.Files': {
+        'data': {
+          '_type': 'atex.Files',
+          'files': {}
+        }
+      },
+      'contentData': {
+        'data': {
+          '_type': 'widget',
+          'name': options.verboseWidgetName
+        }
       }
     }
-  }
-};
+  };
 
-var result = fsWalk.walk (argv.rootDir, function (err, currDir, dirs, files) {
-  if (err) {
-    console.err('ERROR:', err);
-    return;
-  }
-  files.forEach(addFile.bind({}, jsonimport, argv.rootDir, currDir, argv.name));
-});
+  fsWalk.walk (options.root, function (err, currDir, dirs, files) {
+    if (err) {
+      process.stderr.write('ERROR:' + err.message + '\n');
+      return;
+    }
+    files.forEach(addFile.bind({}, jsonimport, options.root, currDir, options.widgetName));
+  });
 
-process.on('exit', function () {
-  console.log(JSON.stringify(jsonimport, null, ' '));
-});
+  process.on('exit', function () {
+    console.log(JSON.stringify(jsonimport, null, ' '));
+  });
+}
+
+main (options);
+
+
+
+
